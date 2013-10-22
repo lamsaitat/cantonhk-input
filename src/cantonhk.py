@@ -1,15 +1,47 @@
+import django
+
 __author__ = 'kuro'
 
 import argparse
+import codecs
+import re
+from django.conf import settings as django_settings
+from django.template import Template, Context, loader
+from models import CantonKey
+
+SUPPORTED_FORMAT = ['ibus']
 
 
-def read(input_file):
+def read_donar_table(input_file):
     print "input file = %s" % input_file
 
+    keymap = []
 
-def write(format):
-    print "format = %s" % format
+    with codecs.open(input_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            if re.search(r'^#', line):
+                continue
 
+            try:
+                key, choices_string = line.split('\t')
+                choices_string = re.sub(r'\n', r'', choices_string)
+                choices = choices_string.split(',')
+                keymap.append(CantonKey(key, choices))
+            except Exception:
+                pass    # Ignore unexpected lines.
+
+    return keymap
+
+
+def generate_table(format, input_path, output_path):
+    keymap = read_donar_table(input_path)
+
+    django_settings.configure()
+
+    t = Template(codecs.open('/home/kuro/python/cantonhk/res/templates/ibus.txt', 'r', encoding='utf-8').read())
+
+    with codecs.open(output_path, mode='w', encoding='utf-8') as f:
+        print >>f, t.render(Context({'keys': keymap}))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -24,14 +56,25 @@ if __name__ == '__main__':
     read_parser.add_argument(dest='input_file', help='File to read in.')
 
     write_parser = subparsers.add_parser('write', help='write help')
+    write_parser.add_argument("-i", "--input", dest='input_file', help='File to read in.')
     write_parser.add_argument("-f", "--format", dest="format", choices=['mac', 'gcin', 'ibus'],
                               help="The output format for target IM daemon.")
+    write_parser.add_argument("-o", "--output", dest='output_path', help='Output path for generated table')
 
     options = parser.parse_args()
 
-    if hasattr(options, 'input_file'):
-        read(options.input_file)
-    elif hasattr(options, 'format'):
-        write(options.format)
+    if hasattr(options, 'format'):
+        if options.format not in SUPPORTED_FORMAT:
+            exit("Format %s is'nt supported yet." % options.format)
+        elif not hasattr(options, 'input_file'):
+            exit("Missing input file")
+        elif not hasattr(options, 'output_path'):
+            exit("Missing output path")
+        else:
+            generate_table(options.format,
+                           input_path=options.input_file,
+                           output_path=options.output_path)
+    elif hasattr(options, 'input_file'):
+        read_donar_table(options.input_file)
     else:
         exit("I don't know what the fuck you're trying to do here.")

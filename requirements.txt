@@ -1,0 +1,2 @@
+# Pip dependency file.
+django
