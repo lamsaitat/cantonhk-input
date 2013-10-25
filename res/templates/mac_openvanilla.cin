@@ -1,0 +1,68 @@
+%gen_inp
+
+#  $Id: jyutping.cin,v 1.1.1.1 2000/12/09 01:57:02 thhsieh Exp $
+#  ====================================================================
+#  
+#  This cin file is originally converted from the "phrase box" file
+#  available on the Linguistic Society of Hong Kong's website:
+#  
+#	http://ctlhpan.cityu.edu.hk/lshk/jyutping/
+#  
+#  You are free to use and redistribute this file; the author only
+#  wishes you keep the following notice intact:
+#  
+#  "The copyright of the Jyutping phrase box belongs to the Linguistic
+#  Society of Hong Kong.  We would like to thank the Jyutping Group of
+#  the Linguistic Society of Hong Kong for permission to use the
+#  electronic file in our research and/or product development."
+#  
+#  For more information about the Jyutping system, visit the above
+#  website.  The romanisation system is a little bit different from
+#  common Hong Kong usage, but this system is a lot more systematic.
+
+%ename CantonHK
+%cname 廣東拼音
+%encoding UTF-8
+%selkey 1234567890
+%endkey 123456
+%keyname begin
+a a
+b b
+c c
+d d
+e e
+f f
+g g
+h h
+i i
+j j
+k k
+l l
+m m
+n n
+o o
+p p
+q q
+r r
+s s
+t t
+u u
+v v
+w w
+x x
+y y
+z z
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6
+7 7
+8 8
+9 9
+0 0
+%keyname end
+%chardef begin
+{% for key in keys %}{{ key.to_ibus|safe }}{% endfor %}
+%chardef end

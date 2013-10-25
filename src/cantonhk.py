@@ -1,15 +1,15 @@
-import django
-
 __author__ = 'kuro'
 
 import argparse
 import codecs
+import django
 import re
+import os
 from django.conf import settings as django_settings
 from django.template import Template, Context, loader
 from models import CantonKey
 
-SUPPORTED_FORMAT = ['ibus']
+SUPPORTED_FORMAT = ['ibus', 'cin']
 
 
 def deploy(options):
@@ -76,8 +76,12 @@ def generate_table(im_format, input_path, output_path):
 
     django_settings.configure()
 
-    if im_format == 'ibus':
-        t = Template(codecs.open('/home/kuro/python/cantonhk/res/templates/ibus.txt', 'r', encoding='utf-8').read())
+    if im_format == 'cin':
+        t = Template(codecs.open(os.path.join(os.getcwd(), '../res/templates/mac_openvanilla.cin'), 'r', encoding='utf-8').read())
+        with codecs.open(output_path, mode='w', encoding='utf-8') as f:
+            print >>f, t.render(Context({'keys': keymap}))
+    elif im_format == 'ibus':
+        t = Template(codecs.open(os.getcwd() + '../res/templates/ibus.txt', 'r', encoding='utf-8').read())
         with codecs.open(output_path, mode='w', encoding='utf-8') as f:
             print >>f, t.render(Context({'keys': keymap}))
 
@@ -91,7 +95,7 @@ if __name__ == '__main__':
 
     write_parser = subparsers.add_parser('write', help='write help')
     write_parser.add_argument("-i", "--input", dest='input_file', help='File to read in.')
-    write_parser.add_argument("-f", "--format", dest="format", choices=['mac', 'gcin', 'ibus'],
+    write_parser.add_argument("-f", "--format", dest="format", choices=['cin', 'gcin', 'ibus'],
                               help="The output format for target IM daemon.")
     write_parser.add_argument("-o", "--output", dest='output_path',
                               help='Output path for generated table')
