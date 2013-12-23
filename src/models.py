@@ -17,3 +17,9 @@ class CantonKey(object):
         for character in self.choices:
             output += "%s\t%s\t%s\n" % (self.key_sequence, character, IBUS_WEIGHT_MAX - self.choices.index(character))
         return output
+
+    def to_cin(self):
+        output = ""
+        for character in self.choices:
+            output += "%s\t%s\n" % (self.key_sequence, character)
+        return output
