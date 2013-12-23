@@ -5,7 +5,7 @@
 ### Derive from the format of SCIM Table, so you can modify the table from
 ### scim-tables' table
 SCIM_Generic_Table_Phrase_Library_TEXT
-VERSION_1_0
+VERSION_1_1
 
 ### Begin Table definition.
 BEGIN_DEFINITION
@@ -21,7 +21,7 @@ UUID = 71d4e3d5-f78c-42f1-8865-fbb023fe76e0
 ### For example the last modified date of this file.
 ### This number must be less than 2^32.
 ### Just make your table version-able
-SERIAL_NUMBER = 20131022
+SERIAL_NUMBER = 20131217
 
 ### ICON can be any format as long as your pygtk can recognized
 ### the most widely ones are "png" and "svg", letter one is recommended
@@ -57,7 +57,7 @@ VALID_INPUT_CHARS = abcdefghijklmnopqrstuvwxyz
 LAYOUT = us
 
 ### The max number of input keys for every phrase or character.
-MAX_KEY_LENGTH = 6
+MAX_KEY_LENGTH = 8
 
 ### Use auto_commit mode as default
 AUTO_COMMIT = FALSE
