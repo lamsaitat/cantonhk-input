@@ -66,9 +66,11 @@ def write(options):
     elif not hasattr(options, 'output_path'):
         exit("Missing output path")
     else:
+        print "Genearting %s table" % options.format
         generate_table(options.format,
                        input_path=options.input_file,
                        output_path=options.output_path)
+        print ("Table saved to path `%s`" % options.output_path)
 
 
 def generate_table(im_format, input_path, output_path):
