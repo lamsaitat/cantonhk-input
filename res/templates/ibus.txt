@@ -57,7 +57,7 @@ VALID_INPUT_CHARS = abcdefghijklmnopqrstuvwxyz
 LAYOUT = us
 
 ### The max number of input keys for every phrase or character.
-MAX_KEY_LENGTH = 8
+MAX_KEY_LENGTH = 6
 
 ### Use auto_commit mode as default
 AUTO_COMMIT = FALSE
