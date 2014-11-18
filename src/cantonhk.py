@@ -83,7 +83,7 @@ def generate_table(im_format, input_path, output_path):
         with codecs.open(output_path, mode='w', encoding='utf-8') as f:
             print >>f, t.render(Context({'keys': keymap}))
     elif im_format == 'ibus':
-        t = Template(codecs.open(os.getcwd() + '../res/templates/ibus.txt', 'r', encoding='utf-8').read())
+        t = Template(codecs.open(os.path.join(os.getcwd(), '../res/templates/ibus.txt'), 'r', encoding='utf-8').read())
         with codecs.open(output_path, mode='w', encoding='utf-8') as f:
             print >>f, t.render(Context({'keys': keymap}))
 
