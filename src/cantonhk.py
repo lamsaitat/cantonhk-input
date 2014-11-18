@@ -66,6 +66,11 @@ def write(options):
     elif not hasattr(options, 'output_path'):
         exit("Missing output path")
     else:
+        directory = os.path.dirname(options.output_path)
+        # Create the output directory if it doesn't exist
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
         print "Genearting %s table" % options.format
         generate_table(options.format,
                        input_path=options.input_file,
