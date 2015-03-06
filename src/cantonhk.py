@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     write_parser = subparsers.add_parser('write', help='write help')
     write_parser.add_argument("-i", "--input", dest='input_file', help='File to read in.')
-    write_parser.add_argument("-f", "--format", dest="format", choices=['cin', 'gcin', 'ibus'],
+    write_parser.add_argument("-f", "--format", dest="format", choices=['cin', 'ibus'],
                               help="The output format for target IM daemon.")
     write_parser.add_argument("-o", "--output", dest='output_path',
                               help='Output path for generated table')
