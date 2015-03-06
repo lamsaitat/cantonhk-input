@@ -36,7 +36,7 @@ def read(options):
 
 
 def read_donar_table(input_file):
-    print "input file = %s" % input_file
+    print("input file = %s" % input_file)
 
     keymap = []
 
@@ -71,11 +71,11 @@ def write(options):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        print "Genearting %s table" % options.format
+        print("Genearting %s table" % options.format)
         generate_table(options.format,
                        input_path=options.input_file,
                        output_path=options.output_path)
-        print ("Table saved to path `%s`" % options.output_path)
+        print("Table saved to path `%s`" % options.output_path)
 
 
 def generate_table(im_format, input_path, output_path):
@@ -85,12 +85,14 @@ def generate_table(im_format, input_path, output_path):
 
     if im_format == 'cin':
         t = Template(codecs.open(os.path.join(os.getcwd(), '../res/templates/mac_openvanilla.cin'), 'r', encoding='utf-8').read())
-        with codecs.open(output_path, mode='w', encoding='utf-8') as f:
-            print >>f, t.render(Context({'keys': keymap}))
+        f = open(output_path, 'w', encoding='utf-8')
+        f.write(t.render(Context({'keys': keymap})))
+        f.close()
     elif im_format == 'ibus':
         t = Template(codecs.open(os.path.join(os.getcwd(), '../res/templates/ibus.txt'), 'r', encoding='utf-8').read())
-        with codecs.open(output_path, mode='w', encoding='utf-8') as f:
-            print >>f, t.render(Context({'keys': keymap}))
+        f = open(output_path, 'w', encoding='utf-8')
+        f.write(t.render(Context({'keys': keymap})))
+        f.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
