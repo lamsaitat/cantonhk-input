@@ -3,13 +3,14 @@ __author__ = 'kuro'
 import argparse
 import codecs
 import django
+import json
 import re
 import os
 from django.conf import settings as django_settings
 from django.template import Template, Context, loader
 from models import CantonKey
 
-SUPPORTED_FORMAT = ['ibus', 'cin']
+SUPPORTED_FORMAT = ['ibus', 'cin', 'json']
 
 
 def deploy(options):
@@ -93,6 +94,16 @@ def generate_table(im_format, input_path, output_path):
         f = open(output_path, 'w', encoding='utf-8')
         f.write(t.render(Context({'keys': keymap})))
         f.close()
+    elif im_format == 'json':
+        full_json = []
+        for key_obj in keymap:
+            key_json = key_obj.to_json()
+            full_json.append(key_json)
+            print("key = %s\njson = %s" % (key_obj.choices, key_json))
+        f = open(output_path, 'w', encoding='utf-8')
+        f.write(json.dumps(full_json, ensure_ascii=False))
+        # f.write(json.dumps(full_json, ensure_ascii=False, indent=4))  uncomment this for pretty printing.
+        f.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -104,7 +115,7 @@ if __name__ == '__main__':
 
     write_parser = subparsers.add_parser('write', help='write help')
     write_parser.add_argument("-i", "--input", dest='input_file', help='File to read in.')
-    write_parser.add_argument("-f", "--format", dest="format", choices=['cin', 'ibus'],
+    write_parser.add_argument("-f", "--format", dest="format", choices=['cin', 'ibus', 'json'],
                               help="The output format for target IM daemon.")
     write_parser.add_argument("-o", "--output", dest='output_path',
                               help='Output path for generated table')
