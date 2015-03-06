@@ -23,3 +23,9 @@ class CantonKey(object):
         for character in self.choices:
             output += "%s\t%s\n" % (self.key_sequence, character)
         return output
+
+    def to_json(self):
+        output = {}
+        output['key'] = self.key_sequence
+        output['choices'] = self.choices
+        return output
