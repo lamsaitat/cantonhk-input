@@ -2,12 +2,12 @@ __author__ = 'kuro'
 
 import argparse
 import codecs
-import django
 import json
 import re
 import os
+import django
 from django.conf import settings as django_settings
-from django.template import Template, Context, loader
+from django.template import Template, Context
 from models import CantonKey
 
 SUPPORTED_FORMAT = ['ibus', 'cin', 'json']
@@ -82,7 +82,19 @@ def write(options):
 def generate_table(im_format, input_path, output_path):
     keymap = read_donar_table(input_path)
 
-    django_settings.configure()
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                # ... some options here ...
+            },
+        },
+    ]
+
+    django_settings.configure(TEMPLATES=TEMPLATES)
+    django.setup()
 
     if im_format == 'cin':
         t = Template(codecs.open(os.path.join(os.getcwd(), '../res/templates/mac_openvanilla.cin'), 'r', encoding='utf-8').read())
